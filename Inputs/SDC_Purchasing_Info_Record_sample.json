@@ -41,7 +41,7 @@
 		"MaximumOrderQuantity": "1000",
 		"IsRelevantForAutomSrcg": false,
 		"IsEvaluatedRcptSettlmtAllowed": true,
-		"IsPurOrderAllwdForInbDeliv": true,
+		"IsPurOrderAllwdForInbDeliv": false,
 		"IsOrderAcknRqd": false,
 		"IsMarkedForDeletion_PO_Level": false,
 		"ConditionRecord": {
@@ -62,5 +62,5 @@
 	},
 	"api_schema": "/sap.s4.beh.purchasinginforecord.v1.PurchasingInfoRecord.Created.v1",
 	"purchasing_info_record": "5300000079",
-	"deleted": ""
+	"deleted": false
 }
