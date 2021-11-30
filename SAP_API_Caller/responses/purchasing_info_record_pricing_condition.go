@@ -1,6 +1,6 @@
 package responses
 
-type Condition struct {
+type PricingCondition struct {
 	D struct {
 		Results []struct {
 			Metadata struct {

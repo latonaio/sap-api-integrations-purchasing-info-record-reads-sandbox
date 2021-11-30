@@ -53,7 +53,7 @@ type PurchasingInfoRecord struct {
 	IsMarkedForDeletionPOLevel     bool   `json:"IsMarkedForDeletion_PO_Level"`
 }
 
-type Condition struct {
+type PricingCondition struct {
 	PurchasingInfoRecord       string `json:"PurchasingInfoRecord"`
 	ConditionRecord            string `json:"ConditionRecord"`
 	ConditionValidityEndDate   string `json:"ConditionValidityEndDate"`
