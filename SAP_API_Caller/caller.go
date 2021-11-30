@@ -112,7 +112,7 @@ func (c *SAPAPICaller) PurchasingInfoRecord(PurchasingInfoRecord string) {
 
 }
 
-func (c *SAPAPICaller) PurchasingInfoRecordPricingCondition(PurchasingInfoRecord, ConditionType string) {
+func (c *SAPAPICaller) PricingCondition(PurchasingInfoRecord, ConditionType string) {
 	res, err := c.callPurchasingInfoRecordSrvAPIRequirementPricingCondition("/A_PurInfoRecdPrcgCndn", PurchasingInfoRecord, ConditionType)
 	if err != nil {
 		c.log.Error(err)
