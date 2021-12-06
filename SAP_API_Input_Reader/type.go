@@ -98,7 +98,7 @@ type SDC struct {
 		IsPurOrderAllwdForInbDeliv     bool   `json:"IsPurOrderAllwdForInbDeliv"`
 		IsOrderAcknRqd                 bool   `json:"IsOrderAcknRqd"`
 		IsMarkedForDeletionPOLevel     bool   `json:"IsMarkedForDeletion_PO_Level"`
-		ConditionRecord                struct {
+		PricingCondition               struct {
 			ConditionRecord            string `json:"ConditionRecord"`
 			ConditionValidityEndDate   string `json:"ConditionValidityEndDate"`
 			ConditionValidityStartDate string `json:"ConditionValidityStartDate"`
@@ -115,6 +115,6 @@ type SDC struct {
 		} `json:"ConditionRecord"`
 	} `json:"PurchasingInfoRecord"`
 	APISchema            string `json:"api_schema"`
-	PurchasingInfoRecord string `json:"purchasing_info_record"`
+	InfoRecord           string `json:"purchasing_info_record"`
 	Deleted              bool   `json:"deleted"`
 }
