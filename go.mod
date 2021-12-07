@@ -1,4 +1,4 @@
-module sap-api-integrations-purchasing-source-list-reads
+module sap-api-integrations-purchasing-info-record-reads
 
 go 1.17
 

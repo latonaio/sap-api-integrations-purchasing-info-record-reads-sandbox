@@ -33,10 +33,11 @@ sap-api-integrations-purchasing-info-record-reads において、API への値�
 
 ### SDC レイアウト
 
-* inoutSDC.PurchasingInfoRecord.Supplier（仕入先）
-* inoutSDC.PurchasingInfoRecord.Material（品目）
-* inoutSDC.PurchasingInfoRecord.PurchasingOrganization（品目）
-* inoutSDC.PurchasingInfoRecord.Plant（プラント）
-* inoutSDC.PurchasingInfoRecord.MaterialGroup（品目グループ）
 * inoutSDC.PurchasingInfoRecord.PurchasingInfoRecord（購買情報）
-* inoutSDC.PurchasingInfoRecord.PricingCondition.ConditionSequentialNumber.ConditionType（条件タイプ）
+* inoutSDC.PurchasingInfoRecord.PurchasingOrganizationPlant.PurchasingInfoRecordCategory（購買情報カテゴリ）
+* inoutSDC.PurchasingInfoRecord.PurchasingOrganizationPlant.Supplier（仕入先）
+* inoutSDC.PurchasingInfoRecord.PurchasingOrganizationPlant.Material（品目）
+* inoutSDC.PurchasingInfoRecord.PurchasingOrganizationPlant.PurchasingOrganization（購買組織）
+* inoutSDC.PurchasingInfoRecord.PurchasingOrganizationPlant.Plant（プラント）
+* inoutSDC.PurchasingInfoRecord.PurchasingOrganizationPlant.MaterialGroup（品目グループ）
+* inoutSDC.PurchasingInfoRecord.PurchasingOrganizationPlant.PricingCondition.ConditionType（条件タイプ）
