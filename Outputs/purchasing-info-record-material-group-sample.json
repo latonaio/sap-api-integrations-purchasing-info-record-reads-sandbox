@@ -1,7 +1,0 @@
-{
-	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-purchasing-info-record-reads/SAP_API_Caller/caller.go#L123",
-	"function": "sap-api-integrations-purchasing-info-record-reads/SAP_API_Caller.(*SAPAPICaller).MaterialGroup",
-	"level": "INFO",
-	"message": "&{PurchasingInfoRecord:5300000640 PurchasingInfoRecordCategory:0 PurchasingOrganization:1710 Plant:1710 Supplier:USSU-VSF10 Material:MZ-TG-A14 MaterialGroup:L001 PurgDocOrderQuantityUnit:PC PurchasingGroup:002 MinimumPurchaseOrderQuantity:0.000 StandardPurchaseOrderQuantity:1.000 MaterialPlannedDeliveryDurn:5 OverdelivTolrtdLmtRatioInPct:0.0 UnderdelivTolrtdLmtRatioInPct:0.0 UnlimitedOverdeliveryIsAllowed:false LastReferencingPurchaseOrder:4500040595 LastReferencingPurOrderItem:20 NetPriceAmount:9.89 MaterialPriceUnitQty:0 PurchaseOrderPriceUnit: PriceValidityEndDate:/Date(253402214400000)/ InvoiceIsGoodsReceiptBased:false TaxCode: IncotermsClassification:EXW MaximumOrderQuantity:0.000 IsRelevantForAutomSrcg: IsEvaluatedRcptSettlmtAllowed:false IsPurOrderAllwdForInbDeliv:false IsOrderAcknRqd:false IsMarkedForDeletion:false}",
-	"time": "2021-12-06T23:34:51.959206+09:00"
-}

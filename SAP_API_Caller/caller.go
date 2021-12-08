@@ -29,25 +29,17 @@ func NewSAPAPICaller(baseUrl string, l *logger.Logger) *SAPAPICaller {
 func (c *SAPAPICaller) AsyncGetPurchasingInfoRecord(purchasingInfoRecord, purchasingInfoRecordCategory, supplier, material, purchasingOrganization, plant, materialGroup, conditionType string) {
 	wg := &sync.WaitGroup{}
 
-	wg.Add(5)
+	wg.Add(3)
 	func() {
 		c.General(purchasingInfoRecord)
 		wg.Done()
 	}()
-    func() {
+	func() {
 		c.Material(purchasingInfoRecord, purchasingInfoRecordCategory, supplier, material, purchasingOrganization, plant)
 		wg.Done()
 	}()
 	func() {
 		c.MaterialGroup(purchasingInfoRecord, purchasingInfoRecordCategory, supplier, materialGroup, purchasingOrganization, plant)
-		wg.Done()
-	}()
-	func() {
-		c.PricingConditionMaterial(purchasingInfoRecord, purchasingInfoRecordCategory, purchasingOrganization, plant, supplier, material, conditionType)
-		wg.Done()
-	}()
-	func() {
-		c.PricingConditionMaterialGroup(purchasingOrganization, plant, supplier, materialGroup, conditionType)
 		wg.Done()
 	}()
 	wg.Wait()
@@ -83,17 +75,30 @@ func (c *SAPAPICaller) callPurchasingInfoRecordSrvAPIRequirementGeneral(api, pur
 	return data, nil
 }
 
-
 func (c *SAPAPICaller) Material(purchasingInfoRecord, purchasingInfoRecordCategory, supplier, material, purchasingOrganization, plant string) {
-	data, err := c.callPurchasingInfoRecordSrvAPIRequirementMaterial("A_PurgInfoRecdOrgPlantData", purchasingInfoRecord, purchasingInfoRecordCategory, supplier, material, purchasingOrganization, plant)
+	materialData, err := c.callPurchasingInfoRecordSrvAPIRequirementMaterial("A_PurgInfoRecdOrgPlantData", purchasingInfoRecord, purchasingInfoRecordCategory, supplier, material, purchasingOrganization, plant)
 	if err != nil {
 		c.log.Error(err)
 		return
 	}
-	c.log.Info(data)
+	c.log.Info(materialData)
+
+	validityData, err := c.callToPurInfoRecdPrcgCndnValidity(materialData[0].ToPurInfoRecdPrcgCndnValidity)
+	if err != nil {
+		c.log.Error(err)
+		return
+	}
+	c.log.Info(validityData)
+
+	cndnData, err := c.callToPurInfoRecdPrcgCndn(validityData.ToPurInfoRecdPrcgCndn)
+	if err != nil {
+		c.log.Error(err)
+		return
+	}
+	c.log.Info(cndnData)
 }
 
-func (c *SAPAPICaller) callPurchasingInfoRecordSrvAPIRequirementMaterial(api, purchasingInfoRecord, purchasingInfoRecordCategory, supplier, material, purchasingOrganization, plant string) (*sap_api_output_formatter.PurchasingOrganizationPlant, error) {
+func (c *SAPAPICaller) callPurchasingInfoRecordSrvAPIRequirementMaterial(api, purchasingInfoRecord, purchasingInfoRecordCategory, supplier, material, purchasingOrganization, plant string) ([]sap_api_output_formatter.PurchasingOrganizationPlant, error) {
 	url := strings.Join([]string{c.baseURL, "API_INFORECORD_PROCESS_SRV", api}, "/")
 	req, _ := http.NewRequest("GET", url, nil)
 
@@ -114,16 +119,66 @@ func (c *SAPAPICaller) callPurchasingInfoRecordSrvAPIRequirementMaterial(api, pu
 	return data, nil
 }
 
+func (c *SAPAPICaller) callToPurInfoRecdPrcgCndnValidity(url string) (*sap_api_output_formatter.ToPurInfoRecdPrcgCndnValidity, error) {
+	req, _ := http.NewRequest("GET", url, nil)
+	c.setHeaderAPIKeyAccept(req)
+
+	resp, err := new(http.Client).Do(req)
+	if err != nil {
+		return nil, xerrors.Errorf("API request error: %w", err)
+	}
+	defer resp.Body.Close()
+
+	byteArray, _ := ioutil.ReadAll(resp.Body)
+	data, err := sap_api_output_formatter.ConvertToToPurInfoRecdPrcgCndnValidity(byteArray, c.log)
+	if err != nil {
+		return nil, xerrors.Errorf("convert error: %w", err)
+	}
+	return data, nil
+}
+
+func (c *SAPAPICaller) callToPurInfoRecdPrcgCndn(url string) (*sap_api_output_formatter.ToPurInfoRecdPrcgCndn, error) {
+	req, _ := http.NewRequest("GET", url, nil)
+	c.setHeaderAPIKeyAccept(req)
+
+	resp, err := new(http.Client).Do(req)
+	if err != nil {
+		return nil, xerrors.Errorf("API request error: %w", err)
+	}
+	defer resp.Body.Close()
+
+	byteArray, _ := ioutil.ReadAll(resp.Body)
+	data, err := sap_api_output_formatter.ConvertToToPurInfoRecdPrcgCndn(byteArray, c.log)
+	if err != nil {
+		return nil, xerrors.Errorf("convert error: %w", err)
+	}
+	return data, nil
+}
+
 func (c *SAPAPICaller) MaterialGroup(purchasingInfoRecord, purchasingInfoRecordCategory, supplier, materialGroup, purchasingOrganization, plant string) {
-	data, err := c.callPurchasingInfoRecordSrvAPIRequirementMaterialGroup("A_PurgInfoRecdOrgPlantData", purchasingInfoRecord, purchasingInfoRecordCategory, supplier, materialGroup, purchasingOrganization, plant)
+	materialGroupData, err := c.callPurchasingInfoRecordSrvAPIRequirementMaterialGroup("A_PurgInfoRecdOrgPlantData", purchasingInfoRecord, purchasingInfoRecordCategory, supplier, materialGroup, purchasingOrganization, plant)
 	if err != nil {
 		c.log.Error(err)
 		return
 	}
-	c.log.Info(data)
+	c.log.Info(materialGroupData)
+
+	validityData, err := c.callToPurInfoRecdPrcgCndnValidity2(materialGroupData[0].ToPurInfoRecdPrcgCndnValidity)
+	if err != nil {
+		c.log.Error(err)
+		return
+	}
+	c.log.Info(validityData)
+
+    cndnData, err := c.callToPurInfoRecdPrcgCndn2(validityData.ToPurInfoRecdPrcgCndn)
+	if err != nil {
+		c.log.Error(err)
+		return
+	}
+	c.log.Info(cndnData)
 }
 
-func (c *SAPAPICaller) callPurchasingInfoRecordSrvAPIRequirementMaterialGroup(api, purchasingInfoRecord, purchasingInfoRecordCategory, supplier, materialGroup, purchasingOrganization, plant string) (*sap_api_output_formatter.PurchasingOrganizationPlant, error) {
+func (c *SAPAPICaller) callPurchasingInfoRecordSrvAPIRequirementMaterialGroup(api, purchasingInfoRecord, purchasingInfoRecordCategory, supplier, materialGroup, purchasingOrganization, plant string) ([]sap_api_output_formatter.PurchasingOrganizationPlant, error) {
 	url := strings.Join([]string{c.baseURL, "API_INFORECORD_PROCESS_SRV", api}, "/")
 	req, _ := http.NewRequest("GET", url, nil)
 
@@ -144,21 +199,9 @@ func (c *SAPAPICaller) callPurchasingInfoRecordSrvAPIRequirementMaterialGroup(ap
 	return data, nil
 }
 
-func (c *SAPAPICaller) PricingConditionMaterial(purchasingInfoRecord, purchasingInfoRecordCategory, supplier, material, purchasingOrganization, plant, conditionType string) {
-	data, err := c.callPurchasingInfoRecordSrvAPIRequirementPricingConditionMaterial(fmt.Sprintf("A_PurgInfoRecdOrgPlantData(PurchasingInfoRecord='%s', PurchasingInfoRecordCategory='%s', PurchasingOrganization='%s', Plant='%s', Supplier='%s', Material='%s', ConditionType='%s')/to_PurInfoRecdPrcgCndnValidity", purchasingInfoRecord, purchasingInfoRecordCategory, purchasingOrganization, plant, supplier, material, conditionType), purchasingInfoRecord, purchasingInfoRecordCategory, purchasingOrganization, plant, supplier, material, conditionType)
-	if err != nil {
-		c.log.Error(err)
-		return
-	}
-	c.log.Info(data)
-}
-
-func (c *SAPAPICaller) callPurchasingInfoRecordSrvAPIRequirementPricingConditionMaterial(api, purchasingInfoRecord, purchasingInfoRecordCategory, supplier, material, purchasingOrganization, plant, conditionType string) (*sap_api_output_formatter.PricingCondition, error) {
-	url := strings.Join([]string{c.baseURL, "API_INFORECORD_PROCESS_SRV", api}, "/")
+func (c *SAPAPICaller) callToPurInfoRecdPrcgCndnValidity2(url string) (*sap_api_output_formatter.ToPurInfoRecdPrcgCndnValidity, error) {
 	req, _ := http.NewRequest("GET", url, nil)
-
 	c.setHeaderAPIKeyAccept(req)
-//	c.getQueryWithPricingConditionMaterial(req, purchasingInfoRecord, purchasingInfoRecordCategory, supplier, material, purchasingOrganization, plant, conditionType)
 
 	resp, err := new(http.Client).Do(req)
 	if err != nil {
@@ -167,28 +210,16 @@ func (c *SAPAPICaller) callPurchasingInfoRecordSrvAPIRequirementPricingCondition
 	defer resp.Body.Close()
 
 	byteArray, _ := ioutil.ReadAll(resp.Body)
-	data, err := sap_api_output_formatter.ConvertToPricingCondition(byteArray, c.log)
+	data, err := sap_api_output_formatter.ConvertToToPurInfoRecdPrcgCndnValidity(byteArray, c.log)
 	if err != nil {
 		return nil, xerrors.Errorf("convert error: %w", err)
 	}
 	return data, nil
 }
 
-func (c *SAPAPICaller) PricingConditionMaterialGroup(supplier, materialGroup, purchasingOrganization, plant, conditionType string) {
-	data, err := c.callPurchasingInfoRecordSrvAPIRequirementPricingConditionMaterialGroup(fmt.Sprintf("A_PurgInfoRecdOrgPlantData(Supplier eq '%s', MaterialGroup eq '%s', PurchasingOrganization='%s', Plant eq '%s', conditionType eq '%s')/to_PurInfoRecdPrcgCndnValidity", supplier, materialGroup, purchasingOrganization, plant, conditionType), supplier, materialGroup, purchasingOrganization, plant, conditionType)
-	if err != nil {
-		c.log.Error(err)
-		return
-	}
-	c.log.Info(data)
-}
-
-func (c *SAPAPICaller) callPurchasingInfoRecordSrvAPIRequirementPricingConditionMaterialGroup(api, supplier, materialGroup, purchasingOrganization, plant, conditionType string) (*sap_api_output_formatter.PricingCondition, error) {
-	url := strings.Join([]string{c.baseURL, "API_INFORECORD_PROCESS_SRV", api}, "/")
+func (c *SAPAPICaller) callToPurInfoRecdPrcgCndn2(url string) (*sap_api_output_formatter.ToPurInfoRecdPrcgCndn, error) {
 	req, _ := http.NewRequest("GET", url, nil)
-
 	c.setHeaderAPIKeyAccept(req)
-//	c.getQueryWithPricingConditionMaterialGroup(req, purchasingInfoRecord, PurchasingInfoRecordCategory, supplier, materialGroup, purchasingOrganization, plant, conditionType)
 
 	resp, err := new(http.Client).Do(req)
 	if err != nil {
@@ -197,7 +228,7 @@ func (c *SAPAPICaller) callPurchasingInfoRecordSrvAPIRequirementPricingCondition
 	defer resp.Body.Close()
 
 	byteArray, _ := ioutil.ReadAll(resp.Body)
-	data, err := sap_api_output_formatter.ConvertToPricingCondition(byteArray, c.log)
+	data, err := sap_api_output_formatter.ConvertToToPurInfoRecdPrcgCndn(byteArray, c.log)
 	if err != nil {
 		return nil, xerrors.Errorf("convert error: %w", err)
 	}

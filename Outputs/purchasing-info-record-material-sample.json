@@ -1,7 +1,0 @@
-{
-	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-purchasing-info-record-reads/SAP_API_Caller/caller.go#L93",
-	"function": "sap-api-integrations-purchasing-info-record-reads/SAP_API_Caller.(*SAPAPICaller).Material",
-	"level": "INFO",
-	"message": "&{PurchasingInfoRecord:5300000630 PurchasingInfoRecordCategory:0 PurchasingOrganization:1710 Plant:1710 Supplier:17300001 Material:MZ-TG-A14 MaterialGroup: PurgDocOrderQuantityUnit:PC PurchasingGroup:002 MinimumPurchaseOrderQuantity:0 StandardPurchaseOrderQuantity:1 MaterialPlannedDeliveryDurn:5 OverdelivTolrtdLmtRatioInPct:0.0 UnderdelivTolrtdLmtRatioInPct:0.0 UnlimitedOverdeliveryIsAllowed:false LastReferencingPurchaseOrder: LastReferencingPurOrderItem:0 NetPriceAmount:25.00 MaterialPriceUnitQty:1 PurchaseOrderPriceUnit:PC PriceValidityEndDate:/Date(1893369600000)/ InvoiceIsGoodsReceiptBased:false TaxCode:I0 IncotermsClassification: MaximumOrderQuantity:0 IsRelevantForAutomSrcg:X IsEvaluatedRcptSettlmtAllowed:false IsPurOrderAllwdForInbDeliv:false IsOrderAcknRqd:false IsMarkedForDeletion:false}",
-	"time": "2021-12-06T23:20:25.246439+09:00"
-}
