@@ -8,7 +8,7 @@ import (
 	"golang.org/x/xerrors"
 )
 
-func ConvertToGeneral(raw []byte, l *logger.Logger) (*General, error) {
+func ConvertToGeneral(raw []byte, l *logger.Logger) ([]General, error) {
 	pm := &responses.General{}
 
 	err := json.Unmarshal(raw, pm)
@@ -18,12 +18,14 @@ func ConvertToGeneral(raw []byte, l *logger.Logger) (*General, error) {
 	if len(pm.D.Results) == 0 {
 		return nil, xerrors.New("Result data is not exist")
 	}
-	if len(pm.D.Results) > 1 {
-		l.Info("raw data has too many Results. %d Results exist. expected only 1 Result. Use the first of Results array", len(pm.D.Results))
+	if len(pm.D.Results) > 10 {
+		l.Info("raw data has too many Results. %d Results exist. show the first 10 of Results array", len(pm.D.Results))
 	}
-	data := pm.D.Results[0]
 
-	return &General{
+	general := make([]General, 0, 10)
+	for i := 0; i < 10 && i < len(pm.D.Results); i++ {
+		data := pm.D.Results[i]
+		general = append(general, General{
 		PurchasingInfoRecord:        data.PurchasingInfoRecord,
 		Supplier:                    data.Supplier,
 		Material:                    data.Material,
@@ -41,7 +43,11 @@ func ConvertToGeneral(raw []byte, l *logger.Logger) (*General, error) {
 		PurchasingInfoRecordDesc:    data.PurchasingInfoRecordDesc,
 		LastChangeDateTime:          data.LastChangeDateTime,
 		IsDeleted:                   data.IsDeleted,
-	}, nil
+		ToPurgInfoRecdOrgPlantData:  data.ToPurgInfoRecdOrgPlantData.Deferred.URI,
+		})
+	}
+
+	return general, nil
 }
 
 func ConvertToPurchasingOrganizationPlant(raw []byte, l *logger.Logger) ([]PurchasingOrganizationPlant, error) {
@@ -97,6 +103,55 @@ func ConvertToPurchasingOrganizationPlant(raw []byte, l *logger.Logger) ([]Purch
 	}
 
 	return purchasingOrganizationPlant, nil
+}
+
+func ConvertToToPurgInfoRecdOrgPlantData(raw []byte, l *logger.Logger) (*ToPurgInfoRecdOrgPlantData, error) {
+	pm := &responses.ToPurgInfoRecdOrgPlantData{}
+
+	err := json.Unmarshal(raw, pm)
+	if err != nil {
+		return nil, xerrors.Errorf("cannot convert to ToPurgInfoRecdOrgPlantData. unmarshal error: %w", err)
+	}
+	if len(pm.D.Results) == 0 {
+		return nil, xerrors.New("Result data is not exist")
+	}
+	if len(pm.D.Results) > 10 {
+		l.Info("raw data has too many Results. %d Results exist. expected only 1 Result. Use the first of Results array", len(pm.D.Results))
+	}
+	data := pm.D.Results[0]
+
+	return &ToPurgInfoRecdOrgPlantData{
+			PurchasingInfoRecord:           data.PurchasingInfoRecord,
+			PurchasingInfoRecordCategory:   data.PurchasingInfoRecordCategory,
+			PurchasingOrganization:         data.PurchasingOrganization,
+			Plant:                          data.Plant,
+			Supplier:                       data.Supplier,
+			Material:                       data.Material,
+			MaterialGroup:                  data.MaterialGroup,
+			PurgDocOrderQuantityUnit:       data.PurgDocOrderQuantityUnit,
+			PurchasingGroup:                data.PurchasingGroup,
+			MinimumPurchaseOrderQuantity:   data.MinimumPurchaseOrderQuantity,
+			StandardPurchaseOrderQuantity:  data.StandardPurchaseOrderQuantity,
+			MaterialPlannedDeliveryDurn:    data.MaterialPlannedDeliveryDurn,
+			OverdelivTolrtdLmtRatioInPct:   data.OverdelivTolrtdLmtRatioInPct,
+			UnderdelivTolrtdLmtRatioInPct:  data.UnderdelivTolrtdLmtRatioInPct,
+			UnlimitedOverdeliveryIsAllowed: data.UnlimitedOverdeliveryIsAllowed,
+			LastReferencingPurchaseOrder:   data.LastReferencingPurchaseOrder,
+			LastReferencingPurOrderItem:    data.LastReferencingPurOrderItem,
+			NetPriceAmount:                 data.NetPriceAmount,
+			MaterialPriceUnitQty:           data.MaterialPriceUnitQty,
+			PurchaseOrderPriceUnit:         data.PurchaseOrderPriceUnit,
+			PriceValidityEndDate:           data.PriceValidityEndDate,
+			InvoiceIsGoodsReceiptBased:     data.InvoiceIsGoodsReceiptBased,
+			TaxCode:                        data.TaxCode,
+			IncotermsClassification:        data.IncotermsClassification,
+			MaximumOrderQuantity:           data.MaximumOrderQuantity,
+			IsRelevantForAutomSrcg:         data.IsRelevantForAutomSrcg,
+			IsEvaluatedRcptSettlmtAllowed:  data.IsEvaluatedRcptSettlmtAllowed,
+			IsPurOrderAllwdForInbDeliv:     data.IsPurOrderAllwdForInbDeliv,
+			IsOrderAcknRqd:                 data.IsOrderAcknRqd,
+			ToPurInfoRecdPrcgCndnValidity:  data.ToPurInfoRecdPrcgCndnValidity.Deferred.URI,
+	}, nil
 }
 
 func ConvertToToPurInfoRecdPrcgCndnValidity(raw []byte, l *logger.Logger) (*ToPurInfoRecdPrcgCndnValidity, error) {

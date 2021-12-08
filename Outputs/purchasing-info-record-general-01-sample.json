@@ -1,0 +1,7 @@
+{
+	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-purchasing-info-record-reads/SAP_API_Caller/caller.go#L54",
+	"function": "sap-api-integrations-purchasing-info-record-reads/SAP_API_Caller.(*SAPAPICaller).General",
+	"level": "INFO",
+	"message": "[{PurchasingInfoRecord:5300000630 Supplier:17300001 Material:MZ-TG-A14 MaterialGroup: PurgDocOrderQuantityUnit:PC SupplierMaterialNumber: SupplierRespSalesPersonName: SupplierPhoneNumber:999 856 4321 SupplierMaterialGroup: IsRegularSupplier:true AvailabilityStartDate: AvailabilityEndDate: Manufacturer: CreationDate:/Date(1521072000000)/ PurchasingInfoRecordDesc: LastChangeDateTime:/Date(1597303924620+0000)/ IsDeleted:false ToPurgInfoRecdOrgPlantData:https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_INFORECORD_PROCESS_SRV/A_PurchasingInfoRecord('5300000630')/to_PurgInfoRecdOrgPlantData}]",
+	"time": "2021-12-08T23:36:47.253934+09:00"
+}

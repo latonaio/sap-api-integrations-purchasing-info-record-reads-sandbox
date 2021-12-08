@@ -1,0 +1,7 @@
+{
+	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-purchasing-info-record-reads/SAP_API_Caller/caller.go#L67",
+	"function": "sap-api-integrations-purchasing-info-record-reads/SAP_API_Caller.(*SAPAPICaller).General",
+	"level": "INFO",
+	"message": "&{ConditionRecord:0000010248 ConditionValidityEndDate:/Date(1893369600000)/ ConditionValidityStartDate:/Date(1546300800000)/ ConditionApplication:M ConditionType:PPR0 PurgDocOrderQuantityUnit: PurchasingOrganization:1710 PurchasingInfoRecordCategory:0 PurchasingInfoRecord:5300000630 Supplier:17300001 MaterialGroup: Material:MZ-TG-A14 Plant:1710 ToPurInfoRecdPrcgCndn:https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_INFORECORD_PROCESS_SRV/A_PurInfoRecdPrcgCndnValidity(ConditionRecord='0000010248',ConditionValidityEndDate=datetime'2029-12-31T00%3A00%3A00')/to_PurInfoRecdPrcgCndn}",
+	"time": "2021-12-08T23:36:47.978593+09:00"
+}

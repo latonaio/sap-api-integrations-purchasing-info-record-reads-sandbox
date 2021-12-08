@@ -24,9 +24,8 @@ sap-api-integrations-purchasing-info-record-reads が対応する APIサービ�
 ## 本レポジトリ に 含まれる API名
 sap-api-integrations-purchasing-info-record-reads には、次の API をコールするためのリソースが含まれています。  
 
-* A_PurchasingInfoRecord（購買情報 - ヘッダ）
-* A_PurchasingInfoRecord('{PurchasingInfoRecord}')/to_PurgInfoRecdOrgPlantData（購買情報 - 購買組織プラント）
-* A_PurInfoRecdPrcgCndn（購買情報 - 価格条件）
+* A_PurchasingInfoRecord（購買情報 - 一般）
+* A_PurgInfoRecdOrgPlantData（購買情報 - 購買組織プラント）
 
 ## API への 値入力条件 の 初期値
 sap-api-integrations-purchasing-info-record-reads において、API への値入力条件の初期値は、入力ファイルレイアウトの種別毎に、次の通りとなっています。  
@@ -40,4 +39,3 @@ sap-api-integrations-purchasing-info-record-reads において、API への値�
 * inoutSDC.PurchasingInfoRecord.PurchasingOrganizationPlant.PurchasingOrganization（購買組織）
 * inoutSDC.PurchasingInfoRecord.PurchasingOrganizationPlant.Plant（プラント）
 * inoutSDC.PurchasingInfoRecord.PurchasingOrganizationPlant.MaterialGroup（品目グループ）
-* inoutSDC.PurchasingInfoRecord.PurchasingOrganizationPlant.PricingCondition.ConditionType（条件タイプ）

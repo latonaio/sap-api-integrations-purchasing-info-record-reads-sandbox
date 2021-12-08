@@ -25,6 +25,11 @@ type General struct {
 		PurchasingInfoRecordDesc    string `json:"PurchasingInfoRecordDesc"`
 		LastChangeDateTime          string `json:"LastChangeDateTime"`
 		IsDeleted                   bool   `json:"IsDeleted"`
+		ToPurgInfoRecdOrgPlantData  struct {
+				Deferred struct {
+					URI string `json:"uri"`
+				} `json:"__deferred"`
+			} `json:"to_PurgInfoRecdOrgPlantData"`
 		} `json:"results"`
 	} `json:"d"`
 }

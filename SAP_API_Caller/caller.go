@@ -46,15 +46,35 @@ func (c *SAPAPICaller) AsyncGetPurchasingInfoRecord(purchasingInfoRecord, purcha
 }
 
 func (c *SAPAPICaller) General(purchasingInfoRecord string) {
-	data, err := c.callPurchasingInfoRecordSrvAPIRequirementGeneral("A_PurchasingInfoRecord", purchasingInfoRecord)
+	generalData, err := c.callPurchasingInfoRecordSrvAPIRequirementGeneral("A_PurchasingInfoRecord", purchasingInfoRecord)
 	if err != nil {
 		c.log.Error(err)
 		return
 	}
-	c.log.Info(data)
+	c.log.Info(generalData)
+
+	orgPlantData, err := c.callToPurgInfoRecdOrgPlantData(generalData[0].ToPurgInfoRecdOrgPlantData)
+	if err != nil {
+		c.log.Error(err)
+		return
+	}
+	c.log.Info(orgPlantData)
+	validityData, err := c.callToPurInfoRecdPrcgCndnValidity(orgPlantData.ToPurInfoRecdPrcgCndnValidity)
+	if err != nil {
+		c.log.Error(err)
+		return
+	}
+	c.log.Info(validityData)
+
+	cndnData, err := c.callToPurInfoRecdPrcgCndn(validityData.ToPurInfoRecdPrcgCndn)
+	if err != nil {
+		c.log.Error(err)
+		return
+	}
+	c.log.Info(cndnData)
 }
 
-func (c *SAPAPICaller) callPurchasingInfoRecordSrvAPIRequirementGeneral(api, purchasingInfoRecord string) (*sap_api_output_formatter.General, error) {
+func (c *SAPAPICaller) callPurchasingInfoRecordSrvAPIRequirementGeneral(api, purchasingInfoRecord string) ([]sap_api_output_formatter.General, error) {
 	url := strings.Join([]string{c.baseURL, "API_INFORECORD_PROCESS_SRV", api}, "/")
 	req, _ := http.NewRequest("GET", url, nil)
 
@@ -69,6 +89,60 @@ func (c *SAPAPICaller) callPurchasingInfoRecordSrvAPIRequirementGeneral(api, pur
 
 	byteArray, _ := ioutil.ReadAll(resp.Body)
 	data, err := sap_api_output_formatter.ConvertToGeneral(byteArray, c.log)
+	if err != nil {
+		return nil, xerrors.Errorf("convert error: %w", err)
+	}
+	return data, nil
+}
+
+func (c *SAPAPICaller) callToPurgInfoRecdOrgPlantData(url string) (*sap_api_output_formatter.ToPurgInfoRecdOrgPlantData, error) {
+	req, _ := http.NewRequest("GET", url, nil)
+	c.setHeaderAPIKeyAccept(req)
+
+	resp, err := new(http.Client).Do(req)
+	if err != nil {
+		return nil, xerrors.Errorf("API request error: %w", err)
+	}
+	defer resp.Body.Close()
+
+	byteArray, _ := ioutil.ReadAll(resp.Body)
+	data, err := sap_api_output_formatter.ConvertToToPurgInfoRecdOrgPlantData(byteArray, c.log)
+	if err != nil {
+		return nil, xerrors.Errorf("convert error: %w", err)
+	}
+	return data, nil
+}
+
+func (c *SAPAPICaller) callToPurInfoRecdPrcgCndnValidity(url string) (*sap_api_output_formatter.ToPurInfoRecdPrcgCndnValidity, error) {
+	req, _ := http.NewRequest("GET", url, nil)
+	c.setHeaderAPIKeyAccept(req)
+
+	resp, err := new(http.Client).Do(req)
+	if err != nil {
+		return nil, xerrors.Errorf("API request error: %w", err)
+	}
+	defer resp.Body.Close()
+
+	byteArray, _ := ioutil.ReadAll(resp.Body)
+	data, err := sap_api_output_formatter.ConvertToToPurInfoRecdPrcgCndnValidity(byteArray, c.log)
+	if err != nil {
+		return nil, xerrors.Errorf("convert error: %w", err)
+	}
+	return data, nil
+}
+
+func (c *SAPAPICaller) callToPurInfoRecdPrcgCndn(url string) (*sap_api_output_formatter.ToPurInfoRecdPrcgCndn, error) {
+	req, _ := http.NewRequest("GET", url, nil)
+	c.setHeaderAPIKeyAccept(req)
+
+	resp, err := new(http.Client).Do(req)
+	if err != nil {
+		return nil, xerrors.Errorf("API request error: %w", err)
+	}
+	defer resp.Body.Close()
+
+	byteArray, _ := ioutil.ReadAll(resp.Body)
+	data, err := sap_api_output_formatter.ConvertToToPurInfoRecdPrcgCndn(byteArray, c.log)
 	if err != nil {
 		return nil, xerrors.Errorf("convert error: %w", err)
 	}
@@ -119,7 +193,7 @@ func (c *SAPAPICaller) callPurchasingInfoRecordSrvAPIRequirementMaterial(api, pu
 	return data, nil
 }
 
-func (c *SAPAPICaller) callToPurInfoRecdPrcgCndnValidity(url string) (*sap_api_output_formatter.ToPurInfoRecdPrcgCndnValidity, error) {
+func (c *SAPAPICaller) callToPurInfoRecdPrcgCndnValidity2(url string) (*sap_api_output_formatter.ToPurInfoRecdPrcgCndnValidity, error) {
 	req, _ := http.NewRequest("GET", url, nil)
 	c.setHeaderAPIKeyAccept(req)
 
@@ -137,7 +211,7 @@ func (c *SAPAPICaller) callToPurInfoRecdPrcgCndnValidity(url string) (*sap_api_o
 	return data, nil
 }
 
-func (c *SAPAPICaller) callToPurInfoRecdPrcgCndn(url string) (*sap_api_output_formatter.ToPurInfoRecdPrcgCndn, error) {
+func (c *SAPAPICaller) callToPurInfoRecdPrcgCndn2(url string) (*sap_api_output_formatter.ToPurInfoRecdPrcgCndn, error) {
 	req, _ := http.NewRequest("GET", url, nil)
 	c.setHeaderAPIKeyAccept(req)
 
@@ -199,7 +273,7 @@ func (c *SAPAPICaller) callPurchasingInfoRecordSrvAPIRequirementMaterialGroup(ap
 	return data, nil
 }
 
-func (c *SAPAPICaller) callToPurInfoRecdPrcgCndnValidity2(url string) (*sap_api_output_formatter.ToPurInfoRecdPrcgCndnValidity, error) {
+func (c *SAPAPICaller) callToPurInfoRecdPrcgCndnValidity3(url string) (*sap_api_output_formatter.ToPurInfoRecdPrcgCndnValidity, error) {
 	req, _ := http.NewRequest("GET", url, nil)
 	c.setHeaderAPIKeyAccept(req)
 
@@ -217,7 +291,7 @@ func (c *SAPAPICaller) callToPurInfoRecdPrcgCndnValidity2(url string) (*sap_api_
 	return data, nil
 }
 
-func (c *SAPAPICaller) callToPurInfoRecdPrcgCndn2(url string) (*sap_api_output_formatter.ToPurInfoRecdPrcgCndn, error) {
+func (c *SAPAPICaller) callToPurInfoRecdPrcgCndn3(url string) (*sap_api_output_formatter.ToPurInfoRecdPrcgCndn, error) {
 	req, _ := http.NewRequest("GET", url, nil)
 	c.setHeaderAPIKeyAccept(req)
 
