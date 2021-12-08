@@ -1,0 +1,7 @@
+{
+	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-purchasing-info-record-reads/SAP_API_Caller/caller.go#L164",
+	"function": "sap-api-integrations-purchasing-info-record-reads/SAP_API_Caller.(*SAPAPICaller).MaterialGroup",
+	"level": "INFO",
+	"message": "[{PurchasingInfoRecord:5500000000 PurchasingInfoRecordCategory:0 PurchasingOrganization:1010 Plant: Supplier:10300001 Material: MaterialGroup:L004 PurgDocOrderQuantityUnit:PC PurchasingGroup:001 MinimumPurchaseOrderQuantity:0 StandardPurchaseOrderQuantity:100 MaterialPlannedDeliveryDurn:1 OverdelivTolrtdLmtRatioInPct:0.0 UnderdelivTolrtdLmtRatioInPct:0.0 UnlimitedOverdeliveryIsAllowed:false LastReferencingPurchaseOrder: LastReferencingPurOrderItem:0 NetPriceAmount:35.00 MaterialPriceUnitQty:100 PurchaseOrderPriceUnit:PC PriceValidityEndDate:/Date(253402214400000)/ InvoiceIsGoodsReceiptBased:false TaxCode:V1 IncotermsClassification: MaximumOrderQuantity:0 IsRelevantForAutomSrcg: IsEvaluatedRcptSettlmtAllowed:false IsPurOrderAllwdForInbDeliv:false IsOrderAcknRqd:false IsMarkedForDeletion:false ToPurInfoRecdPrcgCndnValidity:https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_INFORECORD_PROCESS_SRV/A_PurgInfoRecdOrgPlantData(PurchasingInfoRecord='5500000000',PurchasingInfoRecordCategory='0',PurchasingOrganization='1010',Plant='')/to_PurInfoRecdPrcgCndnValidity}]",
+	"time": "2021-12-08T20:25:00.842194+09:00"
+}

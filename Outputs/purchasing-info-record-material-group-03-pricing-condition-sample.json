@@ -1,0 +1,7 @@
+{
+	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-purchasing-info-record-reads/SAP_API_Caller/caller.go#L178",
+	"function": "sap-api-integrations-purchasing-info-record-reads/SAP_API_Caller.(*SAPAPICaller).MaterialGroup",
+	"level": "INFO",
+	"message": "&{ConditionRecord:0000007135 ConditionSequentialNumber:1 ConditionApplication:M ConditionType:PPR0 ConditionValidityEndDate:/Date(253402214400000)/ ConditionValidityStartDate:/Date(1466726400000)/ CreatedByUser:S4TESTER CreationDate:/Date(1466726400000)/ ConditionTextID: PricingScaleType:A PricingScaleBasis: ConditionScaleQuantity:0.000 ConditionScaleQuantityUnit: ConditionScaleAmount:0.00 ConditionScaleAmountCurrency: ConditionCalculationType:C ConditionRateValue:35.00 ConditionRateValueUnit:EUR ConditionQuantity:100 ConditionQuantityUnit:PC ConditionToBaseQtyNmrtr:1 ConditionToBaseQtyDnmntr:1 BaseUnit:PC ConditionLowerLimit:0.00 ConditionUpperLimit:0.00 ConditionAlternativeCurrency: ConditionExclusion:X ConditionIsDeleted:false AdditionalValueDays:0 FixedValueDate: PaymentTerms: CndnMaxNumberOfSalesOrders:0 MinimumConditionBasisValue:0 MaximumConditionBasisValue:0 MaximumConditionAmount:0.00 IncrementalScale:0 PricingScaleLine:0 ConditionReleaseStatus:}",
+	"time": "2021-12-08T20:25:01.572434+09:00"
+}
