@@ -42,3 +42,69 @@ sap-api-integrations-purchasing-info-record-reads において、API への値�
 * inoutSDC.PurchasingInfoRecord.PurchasingOrganizationPlant.PurchasingOrganization（購買組織）
 * inoutSDC.PurchasingInfoRecord.PurchasingOrganizationPlant.Plant（プラント）
 * inoutSDC.PurchasingInfoRecord.PurchasingOrganizationPlant.MaterialGroup（品目グループ）
+
+## SAP API Bussiness Hub の API の選択的コール
+
+Latona および AION の SAP 関連リソースでは、Inputs フォルダ下の sample.json の accepter に取得したいデータの種別（＝APIの種別）を入力し、指定することができます。  
+なお、同 accepter にAll(もしくは空白)の値を入力することで、全データ（＝全APIの種別）をまとめて取得することができます。  
+
+* sample.jsonの記載例(1)  
+
+accepter において 下記の例のように、データの種別（＝APIの種別）を指定します。  
+ここでは、"General","Material" が指定されています。    
+  
+```
+	"api_schema": "/sap.s4.beh.purchasinginforecord.v1.PurchasingInfoRecord.Created.v1",
+	"accepter": ["General","Material"],
+	"purchasing_info_record": "5300000630",
+	"deleted": false
+```
+  
+* 全データを取得する際のsample.jsonの記載例(2)  
+
+全データを取得する場合、sample.json は以下のように記載します。  
+
+```
+	"api_schema": "/sap.s4.beh.purchasinginforecord.v1.PurchasingInfoRecord.Created.v1",
+	"accepter": ["All"],
+	"purchasing_info_record": "5300000630",
+	"deleted": false
+```
+
+## 指定されたデータ種別のコール
+
+accepter における データ種別 の指定に基づいて SAP_API_Caller 内の caller.go で API がコールされます。  
+caller.go の func() 毎 の 以下の箇所が、指定された API をコールするソースコードです。  
+
+```
+func (c *SAPAPICaller) AsyncGetPurchasingInfoRecord(purchasingInfoRecord, purchasingInfoRecordCategory, supplier, material, purchasingOrganization, plant, materialGroup, conditionType string, accepter []string) {
+	wg := &sync.WaitGroup{}
+	wg.Add(len(accepter))
+	for _, fn := range accepter {
+		switch fn {
+		case "General":
+			func() {
+				c.General(purchasingInfoRecord)
+				wg.Done()
+			}()
+		case "Material":
+			func() {
+				c.Material(purchasingInfoRecord, purchasingInfoRecordCategory, supplier, material, purchasingOrganization, plant)
+				wg.Done()
+			}()
+		case "MaterialGroup":
+			func() {
+				c.MaterialGroup(purchasingInfoRecord, purchasingInfoRecordCategory, supplier, materialGroup, purchasingOrganization, plant)
+				wg.Done()
+			}()
+
+		default:
+			wg.Done()
+		}
+	}
+
+	wg.Wait()
+}
+```
+
+

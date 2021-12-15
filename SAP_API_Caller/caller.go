@@ -26,22 +26,32 @@ func NewSAPAPICaller(baseUrl string, l *logger.Logger) *SAPAPICaller {
 	}
 }
 
-func (c *SAPAPICaller) AsyncGetPurchasingInfoRecord(purchasingInfoRecord, purchasingInfoRecordCategory, supplier, material, purchasingOrganization, plant, materialGroup, conditionType string) {
+func (c *SAPAPICaller) AsyncGetPurchasingInfoRecord(purchasingInfoRecord, purchasingInfoRecordCategory, supplier, material, purchasingOrganization, plant, materialGroup, conditionType string, accepter []string) {
 	wg := &sync.WaitGroup{}
+	wg.Add(len(accepter))
+	for _, fn := range accepter {
+		switch fn {
+		case "General":
+			func() {
+				c.General(purchasingInfoRecord)
+				wg.Done()
+			}()
+		case "Material":
+			func() {
+				c.Material(purchasingInfoRecord, purchasingInfoRecordCategory, supplier, material, purchasingOrganization, plant)
+				wg.Done()
+			}()
+		case "MaterialGroup":
+			func() {
+				c.MaterialGroup(purchasingInfoRecord, purchasingInfoRecordCategory, supplier, materialGroup, purchasingOrganization, plant)
+				wg.Done()
+			}()
 
-	wg.Add(3)
-	func() {
-		c.General(purchasingInfoRecord)
-		wg.Done()
-	}()
-	func() {
-		c.Material(purchasingInfoRecord, purchasingInfoRecordCategory, supplier, material, purchasingOrganization, plant)
-		wg.Done()
-	}()
-	func() {
-		c.MaterialGroup(purchasingInfoRecord, purchasingInfoRecordCategory, supplier, materialGroup, purchasingOrganization, plant)
-		wg.Done()
-	}()
+		default:
+			wg.Done()
+		}
+	}
+
 	wg.Wait()
 }
 
@@ -244,7 +254,7 @@ func (c *SAPAPICaller) MaterialGroup(purchasingInfoRecord, purchasingInfoRecordC
 	}
 	c.log.Info(validityData)
 
-    cndnData, err := c.callToPurInfoRecdPrcgCndn2(validityData.ToPurInfoRecdPrcgCndn)
+	cndnData, err := c.callToPurInfoRecdPrcgCndn2(validityData.ToPurInfoRecdPrcgCndn)
 	if err != nil {
 		c.log.Error(err)
 		return
