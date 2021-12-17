@@ -4,7 +4,7 @@
 	"redis_key": "abcdefg",
 	"filepath": "/var/lib/aion/Data/rededge_sdc/abcdef.json",
 	"PurchasingInfoRecord": {
-		"PurchasingInfoRecord": "5500000000",
+		"PurchasingInfoRecord": "",
 		"Supplier": "10300001",
 		"Material": "",
 		"MaterialGroup": "L004",
@@ -72,6 +72,6 @@
 	},
 	"api_schema": "/sap.s4.beh.purchasinginforecord.v1.PurchasingInfoRecord.Created.v1",
 	"accepter": ["MaterialGroup"],
-	"purchasing_info_record": "5500000000",
+	"purchasing_info_record": "",
 	"deleted": false
 }

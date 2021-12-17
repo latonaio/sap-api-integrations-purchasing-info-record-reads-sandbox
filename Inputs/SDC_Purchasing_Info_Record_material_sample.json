@@ -4,7 +4,7 @@
 	"redis_key": "abcdefg",
 	"filepath": "/var/lib/aion/Data/rededge_sdc/abcdef.json",
 	"PurchasingInfoRecord": {
-		"PurchasingInfoRecord": "5300000630",
+		"PurchasingInfoRecord": "",
 		"Supplier": "17300001",
 		"Material": "MZ-TG-A14",
 		"MaterialGroup": "",
@@ -71,7 +71,7 @@
 		}
 	},
 	"api_schema": "/sap.s4.beh.purchasinginforecord.v1.PurchasingInfoRecord.Created.v1",
-	"accepter": ["General","Material"],
-	"purchasing_info_record": "5300000630",
+	"accepter": ["Material"],
+	"purchasing_info_record": "",
 	"deleted": false
 }
