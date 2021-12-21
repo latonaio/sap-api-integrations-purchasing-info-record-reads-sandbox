@@ -114,6 +114,7 @@ type ToPurInfoRecdPrcgCndnValidity struct {
 	Plant                        string `json:"Plant"`
 	ToPurInfoRecdPrcgCndn        string `json:"to_PurInfoRecdPrcgCndn"`
 }
+
 type ToPurInfoRecdPrcgCndn struct {
 	ConditionRecord              string `json:"ConditionRecord"`
 	ConditionSequentialNumber    string `json:"ConditionSequentialNumber"`
