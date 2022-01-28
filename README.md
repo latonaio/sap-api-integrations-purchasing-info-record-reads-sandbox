@@ -51,13 +51,13 @@ Latona および AION の SAP 関連リソースでは、Inputs フォルダ下�
 * sample.jsonの記載例(1)  
 
 accepter において 下記の例のように、データの種別（＝APIの種別）を指定します。  
-ここでは、"General","Material" が指定されています。    
+ここでは、"General" が指定されています。    
   
 ```
 	"api_schema": "/sap.s4.beh.purchasinginforecord.v1.PurchasingInfoRecord.Created.v1",
-	"accepter": ["Material"],
-	"purchasing_info_record": "",
-	"deleted": false
+	"accepter": ["General"],
+	"purchasing_info_record": "5300000630",
+	"deleted": null
 ```
   
 * 全データを取得する際のsample.jsonの記載例(2)  
@@ -68,7 +68,7 @@ accepter において 下記の例のように、データの種別（＝APIの�
 	"api_schema": "/sap.s4.beh.purchasinginforecord.v1.PurchasingInfoRecord.Created.v1",
 	"accepter": ["All"],
 	"purchasing_info_record": "5300000630",
-	"deleted": false
+	"deleted": null
 ```
 
 ## 指定されたデータ種別のコール
@@ -108,16 +108,37 @@ func (c *SAPAPICaller) AsyncGetPurchasingInfoRecord(purchasingInfoRecord, purcha
 ```
 
 ## Output  
-本マイクロサービスでは、[golang-logging-library](https://github.com/latonaio/golang-logging-library) により、以下のようなデータがJSON形式で出力されます。  
+本マイクロサービスでは、[golang-logging-library-for-sap](https://github.com/latonaio/golang-logging-library-for-sap) により、以下のようなデータがJSON形式で出力されます。  
 以下の sample.json の例は、SAP 購買情報 の 一般データ が取得された結果の JSON の例です。  
-以下の項目のうち、"PurchasingInfoRecord" ～ "ToPurgInfoRecdOrgPlantData" は、/SAP_API_Output_Formatter/type.go 内 の Type General {} による出力結果です。"cursor" ～ "time"は、golang-logging-library による 定型フォーマットの出力結果です。  
+以下の項目のうち、"PurchasingInfoRecord" ～ "ToPurgInfoRecdOrgPlantData" は、/SAP_API_Output_Formatter/type.go 内 の Type General {} による出力結果です。"cursor" ～ "time"は、golang-logging-library-for-sap による 定型フォーマットの出力結果です。  
 
 ```
 {
-	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-purchasing-info-record-reads/SAP_API_Caller/caller.go#L54",
+	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-purchasing-info-record-reads/SAP_API_Caller/caller.go#L64",
 	"function": "sap-api-integrations-purchasing-info-record-reads/SAP_API_Caller.(*SAPAPICaller).General",
 	"level": "INFO",
-	"message": "[{PurchasingInfoRecord:5300000630 Supplier:17300001 Material:MZ-TG-A14 MaterialGroup: PurgDocOrderQuantityUnit:PC SupplierMaterialNumber: SupplierRespSalesPersonName: SupplierPhoneNumber:999 856 4321 SupplierMaterialGroup: IsRegularSupplier:true AvailabilityStartDate: AvailabilityEndDate: Manufacturer: CreationDate:/Date(1521072000000)/ PurchasingInfoRecordDesc: LastChangeDateTime:/Date(1597303924620+0000)/ IsDeleted:false ToPurgInfoRecdOrgPlantData:https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_INFORECORD_PROCESS_SRV/A_PurchasingInfoRecord('5300000630')/to_PurgInfoRecdOrgPlantData}]",
-	"time": "2021-12-08T23:36:47.253934+09:00"
+	"message": [
+		{
+			"PurchasingInfoRecord": "5300000630",
+			"Supplier": "17300001",
+			"Material": "MZ-TG-A14",
+			"MaterialGroup": "",
+			"PurgDocOrderQuantityUnit": "PC",
+			"SupplierMaterialNumber": "",
+			"SupplierRespSalesPersonName": "",
+			"SupplierPhoneNumber": "999 856 4321",
+			"SupplierMaterialGroup": "",
+			"IsRegularSupplier": true,
+			"AvailabilityStartDate": "",
+			"AvailabilityEndDate": "",
+			"Manufacturer": "",
+			"CreationDate": "2018-03-15T09:00:00+09:00",
+			"PurchasingInfoRecordDesc": "",
+			"LastChangeDateTime": "",
+			"IsDeleted": false,
+			"to_PurgInfoRecdOrgPlantData": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_INFORECORD_PROCESS_SRV/A_PurchasingInfoRecord('5300000630')/to_PurgInfoRecdOrgPlantData"
+		}
+	],
+	"time": "2022-01-28T10:39:56+09:00"
 }
 ```
