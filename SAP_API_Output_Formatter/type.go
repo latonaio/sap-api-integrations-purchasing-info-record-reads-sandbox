@@ -65,7 +65,7 @@ type PurchasingOrganizationPlant struct {
 	ToPurInfoRecdPrcgCndnValidity  string `json:"to_PurInfoRecdPrcgCndnValidity"`
 }
 
-type ToPurgInfoRecdOrgPlantData struct {
+type ToPurgInfoRecdOrgPlant struct {
 	PurchasingInfoRecord           string `json:"PurchasingInfoRecord"`
 	PurchasingInfoRecordCategory   string `json:"PurchasingInfoRecordCategory"`
 	PurchasingOrganization         string `json:"PurchasingOrganization"`

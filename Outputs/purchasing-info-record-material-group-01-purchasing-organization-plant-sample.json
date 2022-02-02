@@ -1,5 +1,5 @@
 {
-	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-purchasing-info-record-reads/SAP_API_Caller/caller.go#L248",
+	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-purchasing-info-record-reads/SAP_API_Caller/caller.go#L212",
 	"function": "sap-api-integrations-purchasing-info-record-reads/SAP_API_Caller.(*SAPAPICaller).MaterialGroup",
 	"level": "INFO",
 	"message": [
@@ -334,5 +334,5 @@
 			"to_PurInfoRecdPrcgCndnValidity": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_INFORECORD_PROCESS_SRV/A_PurgInfoRecdOrgPlantData(PurchasingInfoRecord='5300000580',PurchasingInfoRecordCategory='0',PurchasingOrganization='1010',Plant='1010')/to_PurInfoRecdPrcgCndnValidity"
 		}
 	],
-	"time": "2022-01-28T10:44:06+09:00"
+	"time": "2022-02-02T13:59:54+09:00"
 }

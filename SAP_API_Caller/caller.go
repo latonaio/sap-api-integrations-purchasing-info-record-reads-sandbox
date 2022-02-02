@@ -69,14 +69,14 @@ func (c *SAPAPICaller) General(purchasingInfoRecord string) {
 		return
 	}
 	c.log.Info(orgPlantData)
-	validityData, err := c.callToPurInfoRecdPrcgCndnValidity(orgPlantData.ToPurInfoRecdPrcgCndnValidity)
+	validityData, err := c.callToPurInfoRecdPrcgCndnValidity(orgPlantData[0].ToPurInfoRecdPrcgCndnValidity)
 	if err != nil {
 		c.log.Error(err)
 		return
 	}
 	c.log.Info(validityData)
 
-	cndnData, err := c.callToPurInfoRecdPrcgCndn(validityData.ToPurInfoRecdPrcgCndn)
+	cndnData, err := c.callToPurInfoRecdPrcgCndn(validityData[0].ToPurInfoRecdPrcgCndn)
 	if err != nil {
 		c.log.Error(err)
 		return
@@ -105,7 +105,7 @@ func (c *SAPAPICaller) callPurchasingInfoRecordSrvAPIRequirementGeneral(api, pur
 	return data, nil
 }
 
-func (c *SAPAPICaller) callToPurgInfoRecdOrgPlantData(url string) (*sap_api_output_formatter.ToPurgInfoRecdOrgPlantData, error) {
+func (c *SAPAPICaller) callToPurgInfoRecdOrgPlantData(url string) ([]sap_api_output_formatter.ToPurgInfoRecdOrgPlant, error) {
 	req, _ := http.NewRequest("GET", url, nil)
 	c.setHeaderAPIKeyAccept(req)
 
@@ -116,14 +116,14 @@ func (c *SAPAPICaller) callToPurgInfoRecdOrgPlantData(url string) (*sap_api_outp
 	defer resp.Body.Close()
 
 	byteArray, _ := ioutil.ReadAll(resp.Body)
-	data, err := sap_api_output_formatter.ConvertToToPurgInfoRecdOrgPlantData(byteArray, c.log)
+	data, err := sap_api_output_formatter.ConvertToToPurgInfoRecdOrgPlant(byteArray, c.log)
 	if err != nil {
 		return nil, xerrors.Errorf("convert error: %w", err)
 	}
 	return data, nil
 }
 
-func (c *SAPAPICaller) callToPurInfoRecdPrcgCndnValidity(url string) (*sap_api_output_formatter.ToPurInfoRecdPrcgCndnValidity, error) {
+func (c *SAPAPICaller) callToPurInfoRecdPrcgCndnValidity(url string) ([]sap_api_output_formatter.ToPurInfoRecdPrcgCndnValidity, error) {
 	req, _ := http.NewRequest("GET", url, nil)
 	c.setHeaderAPIKeyAccept(req)
 
@@ -174,7 +174,7 @@ func (c *SAPAPICaller) Material(purchasingInfoRecord, purchasingInfoRecordCatego
 	}
 	c.log.Info(validityData)
 
-	cndnData, err := c.callToPurInfoRecdPrcgCndn(validityData.ToPurInfoRecdPrcgCndn)
+	cndnData, err := c.callToPurInfoRecdPrcgCndn(validityData[0].ToPurInfoRecdPrcgCndn)
 	if err != nil {
 		c.log.Error(err)
 		return
@@ -203,42 +203,6 @@ func (c *SAPAPICaller) callPurchasingInfoRecordSrvAPIRequirementMaterial(api, pu
 	return data, nil
 }
 
-func (c *SAPAPICaller) callToPurInfoRecdPrcgCndnValidity2(url string) (*sap_api_output_formatter.ToPurInfoRecdPrcgCndnValidity, error) {
-	req, _ := http.NewRequest("GET", url, nil)
-	c.setHeaderAPIKeyAccept(req)
-
-	resp, err := new(http.Client).Do(req)
-	if err != nil {
-		return nil, xerrors.Errorf("API request error: %w", err)
-	}
-	defer resp.Body.Close()
-
-	byteArray, _ := ioutil.ReadAll(resp.Body)
-	data, err := sap_api_output_formatter.ConvertToToPurInfoRecdPrcgCndnValidity(byteArray, c.log)
-	if err != nil {
-		return nil, xerrors.Errorf("convert error: %w", err)
-	}
-	return data, nil
-}
-
-func (c *SAPAPICaller) callToPurInfoRecdPrcgCndn2(url string) (*sap_api_output_formatter.ToPurInfoRecdPrcgCndn, error) {
-	req, _ := http.NewRequest("GET", url, nil)
-	c.setHeaderAPIKeyAccept(req)
-
-	resp, err := new(http.Client).Do(req)
-	if err != nil {
-		return nil, xerrors.Errorf("API request error: %w", err)
-	}
-	defer resp.Body.Close()
-
-	byteArray, _ := ioutil.ReadAll(resp.Body)
-	data, err := sap_api_output_formatter.ConvertToToPurInfoRecdPrcgCndn(byteArray, c.log)
-	if err != nil {
-		return nil, xerrors.Errorf("convert error: %w", err)
-	}
-	return data, nil
-}
-
 func (c *SAPAPICaller) MaterialGroup(purchasingInfoRecord, purchasingInfoRecordCategory, supplier, materialGroup, purchasingOrganization, plant string) {
 	materialGroupData, err := c.callPurchasingInfoRecordSrvAPIRequirementMaterialGroup("A_PurgInfoRecdOrgPlantData", purchasingInfoRecord, purchasingInfoRecordCategory, supplier, materialGroup, purchasingOrganization, plant)
 	if err != nil {
@@ -247,14 +211,14 @@ func (c *SAPAPICaller) MaterialGroup(purchasingInfoRecord, purchasingInfoRecordC
 	}
 	c.log.Info(materialGroupData)
 
-	validityData, err := c.callToPurInfoRecdPrcgCndnValidity2(materialGroupData[0].ToPurInfoRecdPrcgCndnValidity)
+	validityData, err := c.callToPurInfoRecdPrcgCndnValidity(materialGroupData[0].ToPurInfoRecdPrcgCndnValidity)
 	if err != nil {
 		c.log.Error(err)
 		return
 	}
 	c.log.Info(validityData)
 
-	cndnData, err := c.callToPurInfoRecdPrcgCndn2(validityData.ToPurInfoRecdPrcgCndn)
+	cndnData, err := c.callToPurInfoRecdPrcgCndn(validityData[0].ToPurInfoRecdPrcgCndn)
 	if err != nil {
 		c.log.Error(err)
 		return
@@ -277,42 +241,6 @@ func (c *SAPAPICaller) callPurchasingInfoRecordSrvAPIRequirementMaterialGroup(ap
 
 	byteArray, _ := ioutil.ReadAll(resp.Body)
 	data, err := sap_api_output_formatter.ConvertToPurchasingOrganizationPlant(byteArray, c.log)
-	if err != nil {
-		return nil, xerrors.Errorf("convert error: %w", err)
-	}
-	return data, nil
-}
-
-func (c *SAPAPICaller) callToPurInfoRecdPrcgCndnValidity3(url string) (*sap_api_output_formatter.ToPurInfoRecdPrcgCndnValidity, error) {
-	req, _ := http.NewRequest("GET", url, nil)
-	c.setHeaderAPIKeyAccept(req)
-
-	resp, err := new(http.Client).Do(req)
-	if err != nil {
-		return nil, xerrors.Errorf("API request error: %w", err)
-	}
-	defer resp.Body.Close()
-
-	byteArray, _ := ioutil.ReadAll(resp.Body)
-	data, err := sap_api_output_formatter.ConvertToToPurInfoRecdPrcgCndnValidity(byteArray, c.log)
-	if err != nil {
-		return nil, xerrors.Errorf("convert error: %w", err)
-	}
-	return data, nil
-}
-
-func (c *SAPAPICaller) callToPurInfoRecdPrcgCndn3(url string) (*sap_api_output_formatter.ToPurInfoRecdPrcgCndn, error) {
-	req, _ := http.NewRequest("GET", url, nil)
-	c.setHeaderAPIKeyAccept(req)
-
-	resp, err := new(http.Client).Do(req)
-	if err != nil {
-		return nil, xerrors.Errorf("API request error: %w", err)
-	}
-	defer resp.Body.Close()
-
-	byteArray, _ := ioutil.ReadAll(resp.Body)
-	data, err := sap_api_output_formatter.ConvertToToPurInfoRecdPrcgCndn(byteArray, c.log)
 	if err != nil {
 		return nil, xerrors.Errorf("convert error: %w", err)
 	}

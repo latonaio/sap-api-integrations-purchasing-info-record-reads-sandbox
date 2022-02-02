@@ -1,5 +1,5 @@
 {
-	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-purchasing-info-record-reads/SAP_API_Caller/caller.go#L262",
+	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-purchasing-info-record-reads/SAP_API_Caller/caller.go#L226",
 	"function": "sap-api-integrations-purchasing-info-record-reads/SAP_API_Caller.(*SAPAPICaller).MaterialGroup",
 	"level": "INFO",
 	"message": {
@@ -42,5 +42,5 @@
 		"PricingScaleLine": "0",
 		"ConditionReleaseStatus": ""
 	},
-	"time": "2022-01-28T10:44:07+09:00"
+	"time": "2022-02-02T13:59:56+09:00"
 }

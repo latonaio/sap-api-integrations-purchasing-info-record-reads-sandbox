@@ -37,5 +37,5 @@
 			"to_PurInfoRecdPrcgCndnValidity": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_INFORECORD_PROCESS_SRV/A_PurgInfoRecdOrgPlantData(PurchasingInfoRecord='5300000630',PurchasingInfoRecordCategory='0',PurchasingOrganization='1710',Plant='1710')/to_PurInfoRecdPrcgCndnValidity"
 		}
 	],
-	"time": "2022-01-28T10:43:11+09:00"
+	"time": "2022-02-02T14:02:08+09:00"
 }
